@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+chswift_sh="${0%/*}/../share/chswift/chswift.sh"
+source "$chswift_sh"
+
+case "$1" in
+	-h|--help)
+		echo "usage: chswift-exec SWIFT -- COMMAND [ARGS...]"
+		exit
+		;;
+	-V|--version)
+		echo "chswift version $CHSWIFT_VERSION"
+		exit
+		;;
+esac
+
+if (( $# == 0 )); then
+	echo "chswift-exec: SWIFT and COMMAND required" >&2
+	exit 1
+fi
+
+argv=()
+
+for arg in "$@"; do
+	shift
+
+	if [[ "$arg" == "--" ]]; then break
+	else                          argv+=($arg)
+	fi
+done
+
+if (( $# == 0 )); then
+	echo "chswift-exec: COMMAND required" >&2
+	exit 1
+fi
+
+shell_opts=("-l")
+[[ -t 0 ]] && shell_opts+=("-i")
+
+source_command="command -v chswift >/dev/null || source $chswift_sh"
+chswift_command="chswift $(printf "%q " "${argv[@]}")"
+sub_command="$(printf "%q " "$@")"
+command="$source_command; $chswift_command && $sub_command"
+
+exec "$SHELL" "${shell_opts[@]}" -c "$command"
