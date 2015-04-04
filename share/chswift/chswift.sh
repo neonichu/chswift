@@ -7,7 +7,7 @@ XCODES=()
 OLDIFS=$IFS
 IFS=$'\n'
 for dir in `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`; do
-	[[ -d "$dir" && -n "$(ls -A "$dir/$DEV_DIR")" ]] && XCODES+=("$dir/$DEV_DIR/")
+	[[ -d "$dir" && -n "$(ls -A "$dir/$DEV_DIR")" ]] && XCODES+=("$dir/$DEV_DIR")
 done
 IFS=$OLDIFS
 unset dir
@@ -52,14 +52,15 @@ function chswift()
 			echo "chswift: $CHSWIFT_VERSION"
 			;;
 		"")
-			local dir star
+			local dir star selected
+			selected="$("xcode-select" -p)"
 			for dir in "${XCODES[@]}"; do
-				if [[ "$dir" == "$("xcode-select" -p)" ]]; then star="*"
+				if [[ "$dir" == "${selected%/}" ]]; then star="*"
 				else                                  		    star=" "
 				fi
 
 				echo " $star `swift_version "$dir"`"
-			done
+			done|sort -n
 			;;
 		system) chswift_reset ;;
 		*)
