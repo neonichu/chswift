@@ -4,9 +4,12 @@ DEV_DIR="Contents/Developer"
 TOOL_DIR="Toolchains/XcodeDefault.xctoolchain/usr/bin"
 
 XCODES=()
+OLDIFS=$IFS
+IFS=$'\n'
 for dir in `mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null`; do
 	[[ -d "$dir" && -n "$(ls -A "$dir/$DEV_DIR")" ]] && XCODES+=("$dir/$DEV_DIR/")
 done
+IFS=$OLDIFS
 unset dir
 
 function chswift_reset()
@@ -55,14 +58,14 @@ function chswift()
 				else                                  		    star=" "
 				fi
 
-				echo " $star `swift_version $dir`"
+				echo " $star `swift_version "$dir"`"
 			done
 			;;
 		system) chswift_reset ;;
 		*)
 			local dir match
 			for dir in "${XCODES[@]}"; do
-				case "`swift_version $dir`" in
+				case "`swift_version "$dir"`" in
 					"$1")	match="$dir" && break ;;
 					*"$1"*)	match="$dir" ;;
 				esac
