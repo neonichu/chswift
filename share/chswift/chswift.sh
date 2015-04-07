@@ -39,7 +39,7 @@ function chswift_use()
 
 function swift_version()
 {
-	"$1/usr/bin/xcrun" swift --version|head -n 1|perl -pe 's/.*? ([^ ]+ \(.*?\))/$1/'
+	DEVELOPER_DIR='' "$1/usr/bin/xcrun" swift --version|head -n 1|perl -pe 's/.*? ([^ ]+ \(.*?\))/$1/'
 }
 
 function chswift()
