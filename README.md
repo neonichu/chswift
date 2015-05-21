@@ -36,13 +36,15 @@ Fall back to the Swift defined by your `xcode-select` configuration:
 $ chswift system
 ```
 
-You can also configure a local environment in *.swift-version* files:
+You can also configure a local environment in *.swift-version* files, which contain only the the version you want to use. To use Swift 1.2, do the following in your directory:
 
 ```bash
-$ swift --version
-Swift version 1.1 (swift-600.0.57.4)
-Target: x86_64-apple-darwin14.3.0
 $ echo 1.2 >.swift-version
+```
+
+You can verify it's working using the following. 
+
+```bash
 $ swift --version
 Apple Swift version 1.2 (swiftlang-602.0.47.4 clang-602.0.48)
 Target: x86_64-apple-darwin14.3.0
