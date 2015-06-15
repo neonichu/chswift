@@ -50,6 +50,10 @@ Apple Swift version 1.2 (swiftlang-602.0.47.4 clang-602.0.48)
 Target: x86_64-apple-darwin14.3.0
 ```
 
+### Managing Swift Versions
+
+In order to have multiple Swift versions listed when you run chswift, you will need to have multiple Xcode versions running. The simplest way is to use [xcode-install](https://github.com/neonichu/xcode-install). If you rely solely on the Mac App Store, updates will change your system's Swift version.
+
 ## Testing
 
 ```bash
