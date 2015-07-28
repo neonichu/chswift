@@ -68,7 +68,7 @@ function chswift()
 			for dir in "${XCODES[@]}"; do
 				case "`swift_version "$dir"`" in
 					"$1")	match="$dir" && break ;;
-					*"$1"*)	match="$dir" ;;
+					"$1"*)	match="$dir" ;;
 				esac
 			done
 
