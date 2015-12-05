@@ -4,6 +4,10 @@ function setUp() {
 	chswift_reset
 }
 
+function test_chswift_find_toolchains() {
+	assertEquals "wrong toolchains" "$TOOLCHAINS" "$SWIFTS"
+}
+
 function test_chswift_list() {
 	output=$(chswift)
 	assertEquals "wrong list" "`echo -e "$LIST"`" "$output"
