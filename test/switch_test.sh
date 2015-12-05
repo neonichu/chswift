@@ -19,4 +19,9 @@ function test_chswift_switch() {
 	assertEquals "wrong version" "$VERSION_1_2" "$(swift --version|head -n 1)"
 }
 
+function test_chswift_switch_toolchain() {
+	chswift 2.2-dev
+	assertEquals "wrong version" "$VERSION_DEV" "$(swift --version|head -n 1)"
+}
+
 SHUNIT_PARENT=$0 . $SHUNIT2

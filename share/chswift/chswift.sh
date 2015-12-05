@@ -52,8 +52,8 @@ function chswift_reset()
 function chswift_use()
 {
 	if [[ ! -x "$1/$TOOL_DIR/swift" ]]; then
-		echo "chswift: $1/$TOOL_DIR/swift not executable" >&2
-		return 1
+		chswift_use_toolchain "$1"
+		return 0
 	fi
 
 	chswift_reset
@@ -103,7 +103,7 @@ function chswift()
 		system) chswift_reset ;;
 		*)
 			local dir match
-			for dir in "${XCODES[@]}"; do
+			for dir in "${XCODES[@]}" "${SWIFTS[@]}"; do
 				case "$(swift_version "$dir")" in
 					"$1")	match="$dir" && break ;;
 					"$1"*)	match="$dir" ;;
