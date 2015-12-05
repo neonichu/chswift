@@ -16,6 +16,28 @@ done
 IFS=$OLDIFS
 unset dir
 
+function chswift_list()
+{
+	local dir star selected
+
+	selected="$("xcode-select" -p)"
+	for dir in "${XCODES[@]}"; do
+		if [[ "$dir" == "${selected%/}" ]]; then star="*"
+		else                                     star=" "
+		fi
+
+		echo " $star $(swift_version "$dir")"
+	done
+
+	for dir in "${SWIFTS[@]}"; do
+		if [[ "$dir" == "$CHSWIFT_TOOLCHAIN" ]]; then star="*"
+		else										  star=" "
+		fi
+
+		echo " $star $(swift_version "$dir")"
+	done
+}
+
 function chswift_reset()
 {
 	[[ -z "$DEVELOPER_DIR" && -z "$CHSWIFT_TOOLCHAIN" ]] && return
@@ -59,7 +81,11 @@ function chswift_use_toolchain()
 
 function swift_version()
 {
-	DEVELOPER_DIR='' "$1/usr/bin/xcrun" swift --version|head -n 1|perl -pe 's/.*? ([^ ]+ \(.*?\))/$1/'
+	if [ -x "$1/usr/bin/xcrun" ]; then
+		DEVELOPER_DIR='' "$1/usr/bin/xcrun" swift --version
+	else
+		$1/swift --version
+	fi|head -n 1|perl -pe 's/.*? ([^ ]+ \(.*?\))/$1/'
 }
 
 function chswift()
@@ -72,15 +98,7 @@ function chswift()
 			echo "chswift: $CHSWIFT_VERSION"
 			;;
 		"")
-			local dir star selected
-			selected="$("xcode-select" -p)"
-			for dir in "${XCODES[@]}"; do
-				if [[ "$dir" == "${selected%/}" ]]; then star="*"
-				else                                     star=" "
-				fi
-
-				echo " $star $(swift_version "$dir")"
-			done|sort -n
+			chswift_list|sort -n
 			;;
 		system) chswift_reset ;;
 		*)
