@@ -1,5 +1,9 @@
 . ./test/helper.sh
 
+function setUp() {
+	chswift_reset
+}
+
 function test_chswift_reset() {
 	chswift 1.2
 	chswift_reset
@@ -22,6 +26,11 @@ function test_chswift_switch() {
 function test_chswift_switch_toolchain() {
 	chswift 2.2-dev
 	assertEquals "wrong version" "$VERSION_DEV" "$(swift --version|head -n 1)"
+}
+
+function test_chswift_switch_toolchain_one_star_only() {
+	chswift 2.2
+	assertEquals "wrong list" "1" "$(chswift|grep -c '*')"
 }
 
 function test_chswift_swiftenv_compatibility() {

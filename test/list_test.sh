@@ -21,4 +21,8 @@ function test_chswift_list_robustness() {
 	assertEquals "wrong list" "$expected" "$output"
 }
 
+function test_chswift_list_marks_selected() {
+	assertEquals "does not mark selected" "1" "$(chswift|grep -c '*')"
+}
+
 SHUNIT_PARENT=$0 . $SHUNIT2

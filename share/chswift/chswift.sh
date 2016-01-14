@@ -20,18 +20,22 @@ function chswift_list()
 {
 	local dir star selected
 
-	selected="$("xcode-select" -p)"
-	for dir in "${XCODES[@]}"; do
-		if [[ "$dir" == "${selected%/}" ]]; then star="*"
-		else                                     star=" "
+	for dir in "${SWIFTS[@]}"; do
+		if [[ "$dir" == "$CHSWIFT_TOOLCHAIN" ]]; then star="*"
+		else										  star=" "
 		fi
 
 		echo " $star $(swift_version "$dir")"
 	done
 
-	for dir in "${SWIFTS[@]}"; do
-		if [[ "$dir" == "$CHSWIFT_TOOLCHAIN" ]]; then star="*"
-		else										  star=" "
+	if [ "$star" == " " ]
+	then
+		selected="$("xcode-select" -p)"
+	fi
+
+	for dir in "${XCODES[@]}"; do
+		if [[ "$dir" == "${selected%/}" ]]; then star="*"
+		else                                     star=" "
 		fi
 
 		echo " $star $(swift_version "$dir")"
