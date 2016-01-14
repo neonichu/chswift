@@ -102,11 +102,12 @@ function chswift()
 			;;
 		system) chswift_reset ;;
 		*)
-			local dir match
+			local dir match arg
+			arg="`echo "$1"|sed -e 's/swift-//g' -e 's/-.*//g'`"
 			for dir in "${XCODES[@]}" "${SWIFTS[@]}"; do
 				case "$(swift_version "$dir")" in
-					"$1")	match="$dir" && break ;;
-					"$1"*)	match="$dir" ;;
+					"$arg")		match="$dir" && break ;;
+					"$arg"*)	match="$dir" ;;
 				esac
 			done
 
