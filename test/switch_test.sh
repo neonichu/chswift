@@ -5,9 +5,9 @@ function setUp() {
 }
 
 function test_chswift_reset() {
-	chswift 1.2
+	chswift 2.3
 	chswift_reset
-	assertEquals "wrong version" "$VERSION_1_1" "$(swift --version|head -n 1)"
+	assertEquals "wrong version" "$VERSION_3_0" "$(swift --version|head -n 1)"
 }
 
 function test_chswift_reset_toolchain() {
@@ -19,8 +19,8 @@ function test_chswift_reset_toolchain() {
 }
 
 function test_chswift_switch() {
-	chswift 1.2
-	assertEquals "wrong version" "$VERSION_1_2" "$(swift --version|head -n 1)"
+	chswift 2.3
+	assertEquals "wrong version" "$VERSION_2_3" "$(swift --version|head -n 1)"
 }
 
 function test_chswift_switch_toolchain() {

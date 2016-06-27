@@ -10,6 +10,11 @@ IFS=$'\n'
 for dir in $(mdfind "kMDItemCFBundleIdentifier == 'com.apple.dt.Xcode'" 2>/dev/null); do
 	[[ -d "$dir" && -n "$(ls -A "$dir/$DEV_DIR")" ]] && XCODES+=("$dir/$DEV_DIR")
 done
+for xcode in $XCODES; do
+	for dir in $(ls -d "$xcode/Toolchains/Swift"_* 2>/dev/null); do
+		[[ -d "$dir" && ! -L "$dir" ]] && SWIFTS+=("$dir/usr/bin")
+	done
+done
 for dir in $(ls -d /Library/Developer/Toolchains/swift-* 2>/dev/null); do
 	[[ -d "$dir" && ! -L "$dir" ]] && SWIFTS+=("$dir/usr/bin")
 done
@@ -18,17 +23,17 @@ unset dir
 
 function chswift_list()
 {
-	local dir star selected
+	local dir star selected has_star
 
 	for dir in "${SWIFTS[@]}"; do
-		if [[ "$dir" == "$CHSWIFT_TOOLCHAIN" ]]; then star="*"
+		if [[ "$dir" == "$CHSWIFT_TOOLCHAIN" ]]; then star="*"; has_star="y"
 		else										  star=" "
 		fi
 
 		echo " $star $(swift_version "$dir")"
 	done
 
-	if [ "$star" == " " ]
+	if [ -z "$has_star" ]
 	then
 		selected="$("xcode-select" -p)"
 	fi
