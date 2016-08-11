@@ -90,8 +90,8 @@ function chswift_use_toolchain()
 
 function swift_version()
 {
-	if [ -x "$1/usr/bin/xcrun" ]; then
-		DEVELOPER_DIR='' "$1/usr/bin/xcrun" swift --version
+	if [ -x "$1/usr/bin/xcodebuild" ]; then
+		DEVELOPER_DIR="$1" xcrun swift --version
 	else
 		$1/swift --version
 	fi|head -n 1|perl -pe 's/.*? ([^ ]+ \(.*?\))/$1/'
