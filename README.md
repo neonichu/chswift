@@ -1,5 +1,7 @@
 # chswift
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 The missing Swift version manager.
 
 ## Installation
